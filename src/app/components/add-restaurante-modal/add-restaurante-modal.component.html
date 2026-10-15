@@ -3,18 +3,21 @@
     <ion-title>Añadir Restaurante</ion-title>
     <ion-buttons slot="end">
       <!-- TODO - Añadiremos un botón para cancelar y cerrar el Modal-->
+       <ion-button (click) = "cancelar()">cancelar</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
   <!-- Añadir el [formGroup] y (ngSubmit) para guardar-->
-  <form>
+  <form [formGroup] = 'form' (ngSubmit) = 'guardar()'>
     <ion-list lines="full">
       <!-- TODO - Añadir los campos necesarios a cada ion-input-->
       <!-- Nombre -->
       <ion-item>
-        <ion-input>
+        <ion-input formControlName = 'documentName' type = 'text'
+          placeholder= 'Nombre del restaurante' label= 'Nombre *'
+          labelPlacement = 'stacked'>
         </ion-input>
       </ion-item>
       <!-- TODO - documentName debe ser obligatorio y habrá que comprobar si es invalid && touched
@@ -25,25 +28,34 @@
           <small>El nombre es obligatorio</small>
         </ion-text>
       }
-
-      <!-- Territorio -->
       <ion-item>
-        <ion-input>
+        <ion-input formControlName = 'territory' type = 'text'
+          placeholder= 'Ej: Bizkaia' label= 'Provincia *'
+          labelPlacement = 'stacked'>
         </ion-input>
       </ion-item>
       <!-- TODO - territory debe ser obligatorio y habrá que comprobar si es invalid && touched
                 - Mostramos un texto "El territorio es obligatorio" mediante <ion-text><small>  
         -->
+      @if (form.get('territory')?.invalid && form.get('territory')?.touched) {
+        <ion-text color="danger" class="ion-padding-start">
+          <small>El territorio es obligatorio</small>
+        </ion-text>
+      }
 
       <!-- Localidad -->
       <ion-item>
-        <ion-input>
+        <ion-input formControlName = 'locality' type = 'text'
+          placeholder= 'Ej: Bilbao' label= 'Localidad'
+          labelPlacement = 'stacked'>
         </ion-input>
       </ion-item>
 
       <!-- Dirección -->
       <ion-item>
-        <ion-input>
+        <ion-input formControlName = 'address' type = 'text'
+          placeholder= 'Calle y número' label= 'Dirección'
+          labelPlacement = 'stacked'>
         </ion-input>
       </ion-item>
 
@@ -51,7 +63,7 @@
       <ion-item>
         <ion-input
           type="tel"
-          formControlName="phone">
+          formControlName="phone" placeholder='9xxxxxxxx'>
         </ion-input>
       </ion-item>
 
@@ -59,7 +71,7 @@
       <ion-item>
         <ion-input
           type="url"
-          formControlName="web">
+          formControlName="web" placeholder='https://...'>
         </ion-input>
       </ion-item>
 
@@ -69,7 +81,7 @@
           type="number"
           min="0"
           max="3"
-          formControlName="michelinStar">
+          formControlName="michelinStar" placeholder = '0'>
         </ion-input>
       </ion-item>
 
@@ -79,7 +91,7 @@
           type="number"
           min="0"
           max="3"
-          formControlName="repsolSun">
+          formControlName="repsolSun" placeholder = '0'>
         </ion-input>
       </ion-item>
 
@@ -87,7 +99,15 @@
 
     <!-- TOOD - Se valorará añadir y controlar un spinner y hacer uso de Signals guardando para mostrar un mensaje u otro-->
     <div class="ion-padding-top">
-
+      <ion-button
+        (click)="guardar()"
+        [disabled]="form.invalid || guardando()"
+        title="Subir restaurante a Firebase" expand = 'full'>
+        @if (guardando()) {
+          <ion-spinner name="crescent" style="width:18px;height:18px;margin-right:6px;"></ion-spinner>
+        }
+        Guardar en Firebase
+      </ion-button>
     </div>
 
   </form>

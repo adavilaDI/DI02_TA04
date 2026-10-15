@@ -3,7 +3,9 @@
     <ion-title>Guía de Restaurantes Euskadi</ion-title>
     <ion-buttons slot="end">
       <!-- TODO - Crear un botón en el menú para cuando hagamos click llame al método abrirModalAnadir-->
-      
+      <ion-button (click)= 'abrirModalAnadir()' title = 'Añadir un restaurante a firebase'>
+        Añadir restaurante
+      </ion-button>
       <ion-button
         (click)="confirmarImportacion()"
         [disabled]="cargando() || importando()"

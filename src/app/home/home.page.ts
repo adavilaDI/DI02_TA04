@@ -3,6 +3,7 @@ import { IonicModule, AlertController, ModalController, ToastController, Loading
 import { Restaurante } from '../interface/restaurante';
 import { RestauranteService } from '../services/restaurante.service';
 import restaurantesJSON from '../../assets/datos/restaurantes.json';
+import { AddRestauranteModalComponent } from '../components/add-restaurante-modal/add-restaurante-modal.component';
 //TODO - Añadir el import para el componente AddRestauranteModalComponent
 
 @Component({
@@ -95,10 +96,18 @@ export class HomePage {
   async abrirModalAnadir() {
     //TODO- Crear un ModalController (importarlo si no lo está) y dentro le indicamos que componente debe abrir, 
     // en este caso: component: AddRestauranteModalComponent
-
+    const modal = await this.modalCtrl.create({
+      component: AddRestauranteModalComponent
+    });
     //TODO - Presentar el modal y recoger el role cuando hagamos el onWillDiss (Devuelve un Promise que se resuelve justo antes de que el modal termine su animación de cierra)
     // En este caso el role será "confirm" o "cancel", si es confirm, llamaremos a cargarDatos de nuevo para mostrar toda la lista
     // junto al restaurante nuevo introducido
+    modal.present();
+    const { role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      await this.cargarDatos();
+    }
 
   }
 
