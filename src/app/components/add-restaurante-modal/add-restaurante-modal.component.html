@@ -3,7 +3,7 @@
     <ion-title>Añadir Restaurante</ion-title>
     <ion-buttons slot="end">
       <!-- TODO - Añadiremos un botón para cancelar y cerrar el Modal-->
-       <ion-button (click) = "cancelar()">cancelar</ion-button>
+       <ion-button (click) = "cancelar()" [disabled] = 'guardando()'>cancelar</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

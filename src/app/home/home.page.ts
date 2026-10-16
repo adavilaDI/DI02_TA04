@@ -102,13 +102,31 @@ export class HomePage {
     //TODO - Presentar el modal y recoger el role cuando hagamos el onWillDiss (Devuelve un Promise que se resuelve justo antes de que el modal termine su animación de cierra)
     // En este caso el role será "confirm" o "cancel", si es confirm, llamaremos a cargarDatos de nuevo para mostrar toda la lista
     // junto al restaurante nuevo introducido
-    modal.present();
+    await modal.present();
     const { role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
       await this.cargarDatos();
     }
+  }
 
+  async borrarRestaurante(id: string, nombre: string){
+    const alert = await this.alertCtrl.create({
+      header: 'Confirmar borrado',
+      subHeader: 'Se borrará el restaurante ' + nombre,
+      message: 'Este proceso es irreversible ¿Deseas continuar?',
+      buttons: [
+        { text: 'Cancelar', role: 'cancel' },
+        { text: 'Sí, borrar', role: 'confirm', handler: () => this.restauranteService.delete(id) }
+      ]
+    });
+    await alert.present();
+
+    const {role} = await alert.onWillDismiss();
+    if(role === 'confirm'){
+      await this.mostrarToast(nombre + ' se ha eliminado', 'success');
+      await this.cargarDatos();
+    }
   }
 
   // Muestra un toast con el mensaje y color indicados

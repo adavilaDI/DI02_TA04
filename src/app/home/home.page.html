@@ -3,7 +3,7 @@
     <ion-title>Guía de Restaurantes Euskadi</ion-title>
     <ion-buttons slot="end">
       <!-- TODO - Crear un botón en el menú para cuando hagamos click llame al método abrirModalAnadir-->
-      <ion-button (click)= 'abrirModalAnadir()' title = 'Añadir un restaurante a firebase'>
+      <ion-button (click)= 'abrirModalAnadir()' [disabled]="cargando() || importando()" title = 'Añadir un restaurante a firebase'>
         Añadir restaurante
       </ion-button>
       <ion-button
@@ -134,6 +134,7 @@
             <th>Web</th>
             <th>Estrellas Michelin</th>
             <th>Soles Repsol</th>
+            <th>Eliminar</th>
           </tr>
         </thead>
         <tbody>
@@ -156,6 +157,9 @@
               </td>
               <td class="center">
                 {{ repsolSoles(r) > 0 ? repsolSoles(r) : '-' }}
+              </td>
+              <td >
+                <ion-button color="danger" fill="clear" (click)="borrarRestaurante(r.id!, r.documentName)">Borrar</ion-button>
               </td>
             </tr>
           }

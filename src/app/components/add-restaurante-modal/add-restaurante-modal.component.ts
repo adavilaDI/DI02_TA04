@@ -18,8 +18,7 @@ export class AddRestauranteModalComponent {
   private restauranteService = inject(RestauranteService);
 
   guardando = signal(false);
-  formValido = signal(false);
-
+  
   //TODO - Añadimos nonNullable para que los controles sean del tipo FormContrl<string> en vez de FormControl<string | null>
   //     - Añadir los campos necesarios y controlar las que son obligatorias
   //     - Al FormGroup le estoy llamando "form", podéis poner el nombre que preferáis
